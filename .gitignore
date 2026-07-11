@@ -1,0 +1,14 @@
+.DS_Store
+*.zwc
+*.log
+
+# Never commit shell history or local sessions.
+dot_zsh_history
+dot_zsh_sessions/
+dot_config/fish/fish_variables
+
+# Never commit private credentials.
+dot_ssh/
+dot_config/gh/hosts.yml
+dot_config/clash.meta/
+dot_config/mihomo/

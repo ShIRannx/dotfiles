@@ -1,0 +1,31 @@
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 28
+
+[font.normal]
+family = "Agave Nerd Font Mono"
+style = "Regular"
+[keyboard]
+bindings = [
+  {key="T", mods="Command", action="CreateNewTab"},
+  {key="Tab", mods="Control", action="SelectNextTab"},
+  {key="Tab", mods="Control|Shift", action="SelectPreviousTab"},
+  {key="b", mods="Control", action="ScrollPageUp", mode="vi"},
+  {key="f", mods="Control", action="ScrollPageDown", mode="vi"},
+  {key="d", mods="Control", action="ScrollHalfPageUp", mode="vi"},
+  {key="u", mods="Control", action="ScrollHalfPageDown", mode="vi"},
+  {key="o", mods="Command", action="Open", mode="vi"},
+  {key="s", mods="Command", action="ToggleViMode"},
+  {key="c", mods="Control", action="ToggleViMode", mode="vi"},
+  {key="/", action="SearchBackward", mode="vi"},
+  {key="g", mods="Command", action="SearchFocusPrevious", mode="vi"},
+  {key="g", mods="Command|Shift", action="SearchFocusNext", mode="vi"},
+  {key="y",  action="Copy", mode="vi"},
+]
+
+[window]
+dynamic_padding = true
+opacity = 1
+option_as_alt = "Both"
