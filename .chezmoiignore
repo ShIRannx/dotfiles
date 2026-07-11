@@ -1,5 +1,6 @@
 .DS_Store
 README.md
+proxy/
 scripts/
 
 # Local/runtime state.

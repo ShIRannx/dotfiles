@@ -1,0 +1,110 @@
+mixed-port: 7890
+allow-lan: false
+bind-address: "127.0.0.1"
+mode: rule
+log-level: silent
+external-controller: "127.0.0.1:9090"
+unified-delay: true
+tcp-concurrent: true
+
+geodata-mode: true
+
+geox-url:
+  geoip: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
+  geosite: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+  mmdb: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
+  asn: "https://github.com/xishang0128/geoip/releases/download/latest/GeoLite2-ASN.mmdb"
+
+external-ui: /opt/homebrew/etc/mihomo/ui/
+external-ui-url: https://github.com/haishanh/yacd/archive/gh-pages.zip
+
+ipv6: false
+
+proxies:
+  - name: Workspace-7890
+    type: http
+    server: 127.0.0.1
+    port: 13389
+
+proxy-groups:
+  - name: Select
+    type: select
+    use:
+      - airport
+    proxies:
+      - AutoSelect
+      - DIRECT
+
+  - name: AutoSelect
+    type: url-test
+    use:
+      - airport
+    url: https://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+
+  - name: Fallback
+    type: select
+    proxies:
+      - Select
+      - DIRECT
+
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: redir-host
+
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+
+  nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+
+  nameserver-policy:
+    "geosite:category-ads-all": rcode://success
+    "geosite:cn,private,bing":
+      - https://dns.alidns.com/dns-query
+    "geosite:gfw":
+      - https://dns.google/dns-query
+
+  proxy-server-nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+
+proxy-providers:
+  airport:
+    type: http
+    url: {{ .mihomo.airportSubscribeURL | default "https://example.invalid/replace-mihomo-subscribe-url" | quote }}
+    path: ./kbjc.yaml
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+
+rule-providers:
+
+rules:
+  - GEOSITE,private,DIRECT
+  - GEOIP,private,DIRECT,no-resolve
+  - DOMAIN,e.coding.net,Workspace-7890
+
+  - GEOSITE,category-ads-all,REJECT
+
+  - GEOSITE,icloud,DIRECT
+  - GEOSITE,apple,DIRECT
+
+  - GEOSITE,github,Select
+  - GEOSITE,bing,DIRECT
+  - GEOSITE,microsoft@cn,DIRECT
+
+  - GEOSITE,gfw,Select
+
+  - GEOSITE,cn,DIRECT
+  - GEOIP,CN,DIRECT,no-resolve
+
+  - MATCH,Fallback

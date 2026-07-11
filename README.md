@@ -33,12 +33,29 @@ Then run:
 - `dot_config/nvim`
 - `dot_config/linearmouse`
 - `Brewfile`
+- `proxy/sing-box/config.json` as a sanitized base config; intentionally excludes `config.d`
+- `proxy/mihomo/config.yaml.tmpl` with the subscription URL redacted as a chezmoi template value
 
 ## Not Included
 
 - shell history and zsh sessions
 - SSH private keys and known hosts
 - GitHub CLI auth tokens
-- Clash/Mihomo subscription files, caches, and proxy profiles
+- Clash/Mihomo subscription files, caches, downloaded rule/database files, and proxy profiles
+- sing-box `config.d` node/profile files
+
+## Proxy Configs
+
+The proxy configs are kept under `proxy/` as restore material and are ignored by chezmoi apply by default.
+
+To restore them on a new Mac after Homebrew packages are installed:
+
+```sh
+install -d /opt/homebrew/etc/sing-box /opt/homebrew/etc/mihomo
+cp ~/.local/share/chezmoi/proxy/sing-box/config.json /opt/homebrew/etc/sing-box/config.json
+chezmoi execute-template < ~/.local/share/chezmoi/proxy/mihomo/config.yaml.tmpl > /opt/homebrew/etc/mihomo/config.yaml
+```
+
+Set the real Mihomo subscription URL in chezmoi data before rendering, or replace the placeholder manually on the target machine.
 
 History review showed heavy use of Homebrew, Docker/OrbStack, zsh, Neovim, uv, GitHub CLI, k3d, zoxide, nvm/fnm, yazi, ansible, and proxy tooling, so the Brewfile keeps those current installed tools as the reproducible base.

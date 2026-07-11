@@ -1,0 +1,237 @@
+{
+  "log": {
+    "level": "info",
+    "timestamp": true
+    // "output": "/var/log/singbox.log"
+  },
+
+  "inbounds": [
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 7890,
+      "set_system_proxy": false
+    }
+  ],
+
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "Select",
+      "outbounds": ["节点选择", "direct"],
+      "default": "节点选择"
+    },
+    {
+      "type": "selector",
+      "tag": "Fallback",
+      "outbounds": ["节点选择", "direct"],
+      "default": "节点选择"
+    }
+  ],
+
+  "dns": {
+    "servers": [
+      {
+        "type": "udp",
+        "tag": "bootstrap",
+        "server": "223.5.5.5",
+        "server_port": 53
+      },
+      {
+        "type": "https",
+        "tag": "dnspod",
+        "server": "doh.pub",
+        "path": "/dns-query",
+        "domain_resolver": "bootstrap"
+      },
+      {
+        "type": "https",
+        "tag": "alidns",
+        "server": "dns.alidns.com",
+        "path": "/dns-query",
+        "domain_resolver": "bootstrap"
+      },
+      {
+        "type": "https",
+        "tag": "google",
+        "server": "dns.google",
+        "path": "/dns-query",
+        "domain_resolver": "bootstrap",
+        "detour": "Select"
+      }
+    ],
+    "rules": [
+      {
+        "rule_set": ["geosite-category-ads-all"], // "adblock"
+        "action": "predefined",
+        "rcode": "NOERROR"
+      },
+      {
+        "rule_set": ["geosite-cn", "geosite-private"],
+        "action": "route",
+        "server": "alidns"
+      },
+      {
+        "rule_set": "geosite-gfw",
+        "action": "route",
+        "server": "google"
+      }
+    ],
+    "final": "dnspod",
+    "strategy": "ipv4_only"
+  },
+
+  "route": {
+    "default_domain_resolver": "alidns",
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "geosite-private",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
+        "update_interval": "24h"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-category-ads-all",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/category-ads-all.srs",
+        "update_interval": "24h"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-icloud",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/icloud.srs",
+        "update_interval": "24h"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-apple",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/apple.srs",
+        "update_interval": "24h"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-github",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/github.srs",
+        "update_interval": "24h"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-bing",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bing.srs",
+        "update_interval": "24h"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-microsoft-cn",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/microsoft@cn.srs",
+        "update_interval": "24h"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-gfw",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/gfw.srs",
+        "update_interval": "24h"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-cn",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
+        "update_interval": "24h"
+      },
+      {
+        "type": "remote",
+        "tag": "geoip-cn",
+        "format": "binary",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs",
+        "update_interval": "24h"
+      }
+      // {
+      //   "tag": "adblock",
+      //   "type": "remote",
+      //   "format": "binary",
+      //   "url": "https://testingcf.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Sing-box@main/adblock_reject.srs",
+      //   "update_interval": "24h"
+      // }
+    ],
+    "rules": [
+      {
+        "rule_set": "geosite-private",
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "ip_is_private": true,
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": ["geosite-category-ads-all"], // "adblock"
+        "action": "reject"
+      },
+      {
+        "rule_set": "geosite-icloud",
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "geosite-apple",
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "geosite-github",
+        "action": "route",
+        "outbound": "Select"
+      },
+      {
+        "rule_set": "geosite-bing",
+        "action": "route",
+        "outbound": "Select"
+      },
+      {
+        "rule_set": "geosite-microsoft-cn",
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "geosite-gfw",
+        "action": "route",
+        "outbound": "Select"
+      },
+      {
+        "rule_set": "geosite-cn",
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "geoip-cn",
+        "action": "route",
+        "outbound": "direct"
+      }
+    ],
+    "final": "Select"
+  },
+
+  "experimental": {
+    "cache_file": {
+      "enabled": true
+    },
+    "clash_api": {
+      "external_controller": "0.0.0.0:9090",
+      "external_ui": "/opt/homebrew/etc/sing-box/dashboard/",
+      "external_ui_download_url": "https://github.com/haishanh/yacd/archive/gh-pages.zip",
+      "external_ui_download_detour": "Fallback",
+      "default_mode": "rule"
+    }
+  }
+}
