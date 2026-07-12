@@ -33,6 +33,8 @@ Then run:
 - `dot_config/nvim`
 - `dot_config/linearmouse`
 - `Brewfile`
+- `dot_Library/LaunchAgents/com.alistgo.alist.plist.tmpl`
+- `services/alist/config.json.tmpl` with `jwt_secret` redacted as a chezmoi template value
 - `proxy/sing-box/config.json` as a sanitized base config; intentionally excludes `config.d`
 - `proxy/mihomo/config.yaml.tmpl` with the subscription URL redacted as a chezmoi template value
 
@@ -43,6 +45,22 @@ Then run:
 - GitHub CLI auth tokens
 - Clash/Mihomo subscription files, caches, downloaded rule/database files, and proxy profiles
 - sing-box `config.d` node/profile files
+- Alist database, sessions, storage credentials, shares, logs, and temp files
+
+## Alist
+
+The LaunchAgent is managed by chezmoi. The Alist runtime config is kept under `services/` as restore material and is ignored by chezmoi apply by default because the live data directory also contains the SQLite database.
+
+To restore the sanitized config on a new Mac after placing the Alist binary at `~/.local/bin/alist`:
+
+```sh
+install -d ~/.local/state/alist
+chezmoi execute-template < ~/.local/share/chezmoi/services/alist/config.json.tmpl > ~/.local/state/alist/config.json
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.alistgo.alist.plist
+launchctl enable gui/$(id -u)/com.alistgo.alist
+```
+
+Set a real JWT secret in chezmoi data before rendering, or replace the placeholder manually on the target machine.
 
 ## Proxy Configs
 

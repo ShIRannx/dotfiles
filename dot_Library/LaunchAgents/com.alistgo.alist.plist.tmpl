@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>com.alistgo.alist</string>
+
+    <key>ProgramArguments</key>
+    <array>
+      <string>{{ .chezmoi.homeDir }}/.local/bin/alist</string>
+      <string>server</string>
+      <string>--data</string>
+      <string>{{ .chezmoi.homeDir }}/.local/state/alist</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>{{ .chezmoi.homeDir }}/.local/state/alist/stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>{{ .chezmoi.homeDir }}/.local/state/alist/stderr.log</string>
+
+    <key>WorkingDirectory</key>
+    <string>{{ .chezmoi.homeDir }}/.local/state/alist</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>PATH</key>
+      <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:{{ .chezmoi.homeDir }}/.local/bin</string>
+    </dict>
+  </dict>
+</plist>
