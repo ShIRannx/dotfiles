@@ -34,6 +34,8 @@ Then run:
 - `dot_config/linearmouse`
 - `Brewfile`
 - `dot_Library/LaunchAgents/com.alistgo.alist.plist.tmpl`
+- `dot_Library/LaunchAgents/homebrew.mxcl.mihomo.plist.tmpl`
+- `dot_Library/LaunchAgents/com.sagernet.sing-box.plist.tmpl`
 - `services/alist/config.json.tmpl` with `jwt_secret` redacted as a chezmoi template value
 - `proxy/sing-box/config.json` as a sanitized base config; intentionally excludes `config.d`
 - `proxy/mihomo/config.yaml.tmpl` with the subscription URL redacted as a chezmoi template value
@@ -72,6 +74,8 @@ To restore them on a new Mac after Homebrew packages are installed:
 install -d /opt/homebrew/etc/sing-box /opt/homebrew/etc/mihomo
 cp ~/.local/share/chezmoi/proxy/sing-box/config.json /opt/homebrew/etc/sing-box/config.json
 chezmoi execute-template < ~/.local/share/chezmoi/proxy/mihomo/config.yaml.tmpl > /opt/homebrew/etc/mihomo/config.yaml
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/homebrew.mxcl.mihomo.plist
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.sagernet.sing-box.plist
 ```
 
 Set the real Mihomo subscription URL in chezmoi data before rendering, or replace the placeholder manually on the target machine.
