@@ -22,10 +22,10 @@ fish_add_path --prepend /opt/homebrew/opt/libpq/bin
 set -gx UV_DEFAULT_INDEX "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
 
 # proxy
-# set -gx https_proxy http://127.0.0.1:7890
-# set -gx http_proxy http://127.0.0.1:7890
-# set -gx all_proxy socks5://127.0.0.1:7890
-# set -gx NO_PROXY "localhost,127.0.0.1,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+set -gx https_proxy http://127.0.0.1:7890
+set -gx http_proxy http://127.0.0.1:7890
+set -gx all_proxy socks5://127.0.0.1:7890
+set -gx NO_PROXY "localhost,127.0.0.1,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
 
 # Only run interactive setup in interactive shells
 if status is-interactive
@@ -60,4 +60,4 @@ end
 
 # Added by OrbStack: command-line tools and integration
 # This won't be added again if you remove it.
-source ~/.orbstack/shell/init2.fish 2>/dev/null || :
+#source ~/.orbstack/shell/init2.fish 2>/dev/null || :
