@@ -1,0 +1,47 @@
+macos-option-as-alt = true
+window-save-state = never
+
+keybind = ctrl+m=text:\r
+keybind = ctrl+shift+u=scroll_page_up
+keybind = ctrl+shift+d=scroll_page_down
+
+shell-integration = fish
+
+window-padding-x = 0
+window-padding-y = 0
+adjust-cell-height = 0
+
+window-decoration = true
+
+font-thicken = true
+font-size = 24
+font-family = "Agave Nerd Font Mono"
+
+cursor-style = block
+cursor-style-blink = true
+
+copy-on-select = clipboard
+shell-integration-features = ssh-env,no-cursor
+
+background = #0b0e14
+foreground = #bfbdb6
+selection-background = #1b3a5b
+selection-foreground = #bfbdb6
+cursor-color = #bfbdb6
+cursor-text = #0b0e14
+palette = 0=#1e232b
+palette = 1=#ea6c73
+palette = 2=#7fd962
+palette = 3=#f9af4f
+palette = 4=#53bdfa
+palette = 5=#cda1fa
+palette = 6=#90e1c6
+palette = 7=#c7c7c7
+palette = 8=#686868
+palette = 9=#f07178
+palette = 10=#aad94c
+palette = 11=#ffb454
+palette = 12=#59c2ff
+palette = 13=#d2a6ff
+palette = 14=#95e6cb
+palette = 15=#ffffff

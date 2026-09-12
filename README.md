@@ -1,6 +1,6 @@
 # dotfiles
 
-chezmoi-managed macOS development environment for zsh, fish, Git, LinearMouse, and Homebrew packages. Neovim itself can still be installed and versioned with Homebrew and bob, but its configuration is intentionally managed separately.
+chezmoi-managed macOS development environment for zsh, fish, Git, Ghostty, LinearMouse, and Homebrew packages. Neovim itself can still be installed and versioned with Homebrew and bob, but its configuration is intentionally managed separately.
 
 ## Restore
 
@@ -30,6 +30,7 @@ Then run:
 - `dot_zshrc.tmpl`, `dot_zprofile.tmpl`, `dot_zshenv.tmpl`
 - `dot_gitconfig`
 - `dot_config/fish`
+- `dot_Library/Application Support/com.mitchellh.ghostty/config.ghostty`
 - `dot_config/linearmouse`
 - `Brewfile`
 - `dot_Library/LaunchAgents/com.alistgo.alist.plist.tmpl`

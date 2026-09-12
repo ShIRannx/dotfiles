@@ -1,3 +1,5 @@
+# Simple, modern, and secure file encryption tool
+brew "age"
 # Version manager for neovim
 brew "bob"
 # Manage dotfiles across multiple machines
@@ -20,6 +22,8 @@ brew "libpq"
 brew "mihomo", restart_service: :changed
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# Sync files and directories to and from cloud storage
+brew "rclone"
 # Universal proxy platform
 brew "sing-box"
 # User interface to the TELNET protocol
@@ -40,6 +44,10 @@ cask "chatgpt"
 cask "codex"
 # Project management software
 cask "feishu"
+# Agave Nerd Font used by Ghostty
+cask "font-agave-nerd-font"
+# GPU-accelerated terminal emulator
+cask "ghostty"
 # Replacement for Docker Desktop
 cask "orbstack"
 # Open-source version of the X.Org X Window System
